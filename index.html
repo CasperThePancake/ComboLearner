@@ -97,6 +97,10 @@
             console.log("Correct answer:")
             console.log(response1[randTerm])
             askedTerms = askedTerms + 1
+            if (localStorage['st_CaseSensitive'] == "true" || "false") {}
+            else {localStorage['st_CaseSensitive'] == "false"}
+            if (localStorage['st_NextTerm'] == "true" || "false") {}
+            else {localStorage['st_NextTerm'] == "true"}
             if (localStorage['st_CaseSensitive'] == "false") {
             if (document.getElementById('input1_text').value.toUpperCase() == response1[randTerm].toUpperCase()) {
                 document.getElementById("input1_text").style.backgroundColor = "lime";
