@@ -348,7 +348,14 @@
             console.log("Finished loading all terms from cache!")
         }
         window.onload = function() {
-        loadFromCache();
+        //ONLY RUN THE CACHE LOAD FUNCTION IF THIS IS NOT THE FIRST VISIT, OTHERWISE MEMORY LEAKS
+        if (localStorage['clLength']) {
+            console.log("YES")
+        }
+        else {
+            console.log("no")
+        }
+        // loadFromCache();
         };
         function resetScore() {
             correctTerms = 0;
