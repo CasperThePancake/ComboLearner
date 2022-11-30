@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<head lang="en-US">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.png?v=2">
+    <title>ComboLearner - Learner</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body>
+    <a href="settings.html"><span id="settings_button"><img src="assets/settings.png" width="50px" height="50px"></span></a>
+    <span id="score"><p id="scoreP">Score: Empty</p></span>
+    <span id="scoreClear" onClick="resetScore()">Reset score</span>
+    <div id="title">
+        <h1 class="title">ComboLearner</h1>
+        <h5 class="subtitle">Learn anything quickly</h5>
+    </div>
+    <div id="new">
+        <span onClick="newTerm()"><button id="button_new"><p>New term</p></button></span>
+    </div>
+    <div id="term">
+        <p id="term_text" style="visibility:hidden;">TERM GOES HERE</p>
+    </div>
+    <div id="term1">
+        <div id="input1">
+            <input onkeypress="inputKeyPress(this, event)" class="input1_text" id="input1_text" placeholder="Type answer here...">
+        </div>
+        <div id="verify1">
+            <span onClick="verifyTerm1()"><button id="verifybutton"><a><p>✅</p></a></button></span>
+        </div>
+    </div>
+    <div id="termListTitle">
+        <h3 id="termListTitleTitle">Term list</h3>
+        <span termListState="1" onClick="toggleList()" id="termListTitleButton"><button id="hideButton" style="padding:0;"><p id="termListButtonP">Hide</p></button></span>
+    </div>
+    <div id="termList">
+        <div class="termListEntry" id="0">
+            <div class="termListTerm"><p class="termListTermP">Poyo!</p></div>
+            <div class="termListResponse"><p class="termListResponseP">Kirby</p></div>
+            <div class="termListRemoveButton"><span onClick="removeTerm(this)"><button class="removeButton">🗑️</button></span></div>
+        </div>
+        <div class="termListEntry" id="1">
+            <div class="termListTerm"><p class="termListTermP">Let's-a-go!</p></div>
+            <div class="termListResponse"><p class="termListResponseP">Mario</p></div>
+            <div class="termListRemoveButton"><span onClick="removeTerm(this)"><button class="removeButton">🗑️</button></span></div>
+        </div>
+        <div class="termListEntry" id="2">
+            <div class="termListTerm"><p class="termListTermP">*licks*</p></div>
+            <div class="termListResponse"><p class="termListResponseP">Yoshi</p></div>
+            <div class="termListRemoveButton"><span onClick="removeTerm(this)"><button class="removeButton">🗑️</button></span></div>
+        </div>
+    </div>
+    <div id="termListHidden" style="visibility:collapse;">
+        <p>Term list is hidden!</p>
+    </div>
+    <footer id="footer">
+        <div id="addNew">
+            <div id="addNewTitle">
+                <h3>Add new entry</h3>
+            </div>
+            <input onkeypress="addKeyPress(this, event)" id="addTerm" placeholder="Type term here...">
+            <input onkeypress="addKeyPress(this, event)" id="addResponse" placeholder="Type correct response here...">
+        </div>
+        <div id="addButton">
+            <span onClick="addTerm()"><button><p>Add term</p></button></span>
+        </div>
+        <a href="info.html" id="moreInfo">More information</a>
+    </footer>
+    <div id="creditFixed"><p id="footerText">Demo by <a id="CasperThePancake" href="https://youtube.com/@CasperThePancake" target="_blank">CasperThePancake</a></p></div>
+    <script>
+        var terms = ["Poyo!", "Let's-a-go!", "*licks*"];
+        var response1 = ["Kirby", "Mario", "Yoshi"];
+        var randTerm = 1;
+        var correctTerms = 0;
+        var askedTerms = 0;
+        function randomGen(x) {
+            console.log("The current term is:")
+            console.log(x)
+            window.randTerm = Math.floor(Math.random() * ((terms.length - 1) - 0 + 1) + 0)
+            console.log("I generated this number:")
+            console.log(randTerm)
+            if (x == randTerm) {
+                console.log("It's a repeat, so I'm trying again...")
+                randomGen(x)
+            }
+        }
+        function newTerm() {
+            let oldTerm = randTerm
+            randomGen(oldTerm)
+            console.log("--------------------------")
+            document.getElementById("term_text").textContent=terms[randTerm];
+            document.getElementById("term_text").style.visibility="visible";
+            document.getElementById("input1_text").style.backgroundColor = "white";
+            document.getElementById("input1_text").value ="";
+        }
+        function verifyTerm1() {
+            console.log("Input:")
+            console.log(document.getElementById('input1_text').value)
+            console.log("Correct answer:")
+            console.log(response1[randTerm])
+            askedTerms = askedTerms + 1
+            if (localStorage['st_CaseSensitive'] == "false") {
+            if (document.getElementById('input1_text').value.toUpperCase() == response1[randTerm].toUpperCase()) {
+                document.getElementById("input1_text").style.backgroundColor = "lime";
+                correctTerms = correctTerms + 1;
+            }
+            else {
+                document.getElementById("input1_text").style.backgroundColor = "red";
+            }
+            }
+            if (localStorage['st_CaseSensitive'] == "true") {
+            if (document.getElementById('input1_text').value == response1[randTerm]) {
+                document.getElementById("input1_text").style.backgroundColor = "lime";
+                correctTerms = correctTerms + 1;
+            }
+            else {
+                document.getElementById("input1_text").style.backgroundColor = "red";
+            }
+            }
+            //UPDATE SCOREBOARD
+            var scorePercent = Math.round(correctTerms / askedTerms * 100)
+            document.getElementById("scoreP").innerHTML = "Score: "+correctTerms+"/"+askedTerms+" ("+scorePercent+"%)"
+            //CACHE SCOREBOARD
+            localStorage['correctTerms'] = correctTerms;
+            localStorage['askedTerms'] = askedTerms;
+            if (localStorage['st_NextTerm'] == "true") {
+                waitNextTerm();
+            }
+        }
+        function delay(milliseconds){
+        return new Promise(resolve => {
+        setTimeout(resolve, milliseconds);
+        });
+        }
+        async function waitNextTerm() {
+        await delay(1000);
+        newTerm();
+        }
+        function inputKeyPress(element, e) {
+            var charCode;
+            if(e && e.which){
+                charCode = e.which;
+            }
+            else if(window.event){
+                e = window.event;
+                charCode = e.keyCode;
+            }
+            if(charCode == 13){
+                verifyTerm1();
+            }
+        }
+        function addKeyPress(element, e) {
+            var charCode;
+            if(e && e.which){
+                charCode = e.which;
+            }
+            else if(window.event){
+                e = window.event;
+                charCode = e.keyCode;
+            }
+            if(charCode == 13){
+                addTerm();
+            }
+        }
+        function addTerm() {
+            if (!document.getElementById('addResponse').value) {
+                console.log("Error: input field is empty!")
+                document.getElementById("addResponse").value =""
+                document.getElementById("addTerm").value =""
+                return;
+            }
+            if (!document.getElementById('addTerm').value) {
+                console.log("Error: input field is empty!")
+                document.getElementById("addResponse").value =""
+                document.getElementById("addTerm").value =""
+                return;
+            }
+            // Add to array
+            response1.push(document.getElementById('addResponse').value)
+            terms.push(document.getElementById('addTerm').value)
+            document.getElementById("addResponse").value =""
+            document.getElementById("addTerm").value =""
+            console.log('New term has been added via array!')
+            // Add new display to HTML list
+            // TERM
+            const termListEntry = document.createElement("div");
+            termListEntry.classList = "termListEntry";
+            termListEntry.id = terms.length - 1;
+            //
+            const termListTerm = document.createElement("div");
+            termListTerm.classList = "termListTerm";
+            //
+            const termListTermP = document.createElement("p");
+            termListTermP.classList = "termListTermP";
+            termListTermP.innerHTML = terms[terms.length - 1];
+            //
+            const termListResponse = document.createElement("div");
+            termListResponse.classList = "termListResponse";
+            //
+            const termListResponseP = document.createElement("p");
+            termListResponseP.classList = "termListResponseP";
+            termListResponseP.innerHTML = response1[response1.length - 1];
+            //
+            const termListRemoveButton = document.createElement("div");
+            termListRemoveButton.classList = "termListRemoveButton";
+            //
+            let termListRemove = htmlToElem('<span onClick="removeTerm(this)"><button class="removeButton">🗑️</button></span>')
+            //
+            document.getElementById("termList").appendChild(termListEntry)
+            termListEntry.appendChild(termListTerm)
+            termListEntry.appendChild(termListResponse)
+            termListEntry.appendChild(termListRemoveButton)
+            termListTerm.appendChild(termListTermP)
+            termListResponse.appendChild(termListResponseP)
+            termListRemoveButton.appendChild(termListRemove)
+            console.log("New term has been added via HTML!")
+            console.log("Finished adding new term!")
+            //SAVE CACHE
+            saveCache()
+        }
+            function saveCache() {
+            localStorage['clLength'] = terms.length;
+            var saveLength = terms.length;
+            var saveID = 0;
+            while (saveID != saveLength) {
+                //save
+                localStorage['clTerm'+saveID] = terms[saveID]
+                localStorage['clResponse'+saveID] = response1[saveID]
+                //log to console
+                console.log("Added the term with ID "+saveID+" to the localStorage")
+                //update var
+                saveID = saveID + 1
+            }
+            }
+        function toggleList() {
+            let state = document.getElementById("termListTitleButton").getAttribute('termListState')
+            console.log(state)
+            if (state == 1) {
+                document.getElementById("termList").style.display = "none";
+                document.getElementById("termList").style.height = 0;
+                document.getElementById("termListHidden").style.visibility = "visible";
+                document.getElementById("termListHidden").style.height = "auto";
+                document.getElementById("termListTitleButton").setAttribute('termListState',0);
+                document.getElementById("termListButtonP").innerHTML = "Show";
+                console.log("Collapsed term list!")
+            }
+            if (state == 0) {
+                document.getElementById("termList").style.display = "block";
+                document.getElementById("termList").style.height = "fit-content";
+                document.getElementById("termListHidden").style.visibility = "hidden";
+                document.getElementById("termListHidden").style.height = 0;
+                document.getElementById("termListTitleButton").setAttribute('termListState',1);
+                document.getElementById("termListButtonP").innerHTML = "Hide";
+                console.log("Opened term list!")
+            }
+        }
+        function removeTerm(me) {
+            console.log("Deleting term...")
+            //Delete from array
+            var delID = me.parentElement.parentElement.id
+            terms.splice(delID, 1);
+            response1.splice(delID, 1);
+            //Delete from HTML
+            let del = me.parentElement.parentElement
+            me.parentElement.parentElement.parentElement.removeChild(del)
+            //Update termID for other entries
+            //Calculate amount of terms to ID-modify
+            delID = parseInt(delID)
+            var amountMod = terms.length - delID
+            console.log("Amount of terms after deletion:")
+            console.log(terms.length)
+            console.log("ID of old deleted term:")
+            console.log(delID)
+            console.log("Amount of terms to modify:")
+            console.log(amountMod)
+            var currentMod = delID + amountMod
+            while (amountMod > 0) {
+                document.getElementById(currentMod).id = document.getElementById(currentMod).id - 1
+                currentMod = currentMod - 1
+                amountMod = amountMod - 1
+            }
+            saveCache()
+        }
+        function htmlToElem(html) {
+        let temp = document.createElement('template');
+        html = html.trim(); // Never return a space text node as a result
+        temp.innerHTML = html;
+        return temp.content.firstChild;
+        }
+        function loadFromCache() {
+            var loadLength = localStorage['clLength']
+            var loadID = 0;
+            // Load score from cache
+            var correctTerms = localStorage['correctTerms']
+            var askedTerms = localStorage['askedTerms']
+            if (askedTerms != 0) {
+            var scorePercent = Math.round(correctTerms / askedTerms * 100)
+            document.getElementById("scoreP").innerHTML = "Score: "+correctTerms+"/"+askedTerms+" ("+scorePercent+"%)"                
+            }
+            // Empty array and list
+            // Empty array
+            terms = []
+            response1 = []
+            // Empty List
+            document.getElementById("termList").innerHTML = '';
+            // Load from cache
+            while (loadID != loadLength) {
+            // Add to array
+            response1.push(localStorage['clResponse'+loadID])
+            terms.push(localStorage['clTerm'+loadID])
+            console.log('')
+            console.log('Loaded term has been added via array!')
+            // Add new display to HTML list
+            // TERM
+            const termListEntry = document.createElement("div");
+            termListEntry.classList = "termListEntry";
+            termListEntry.id = loadID;
+            //
+            const termListTerm = document.createElement("div");
+            termListTerm.classList = "termListTerm";
+            //
+            const termListTermP = document.createElement("p");
+            termListTermP.classList = "termListTermP";
+            termListTermP.innerHTML = localStorage['clTerm'+loadID];
+            //
+            const termListResponse = document.createElement("div");
+            termListResponse.classList = "termListResponse";
+            //
+            const termListResponseP = document.createElement("p");
+            termListResponseP.classList = "termListResponseP";
+            termListResponseP.innerHTML = localStorage['clResponse'+loadID];
+            //
+            const termListRemoveButton = document.createElement("div");
+            termListRemoveButton.classList = "termListRemoveButton";
+            //
+            let termListRemove = htmlToElem('<span onClick="removeTerm(this)"><button class="removeButton">🗑️</button></span>')
+            //
+            document.getElementById("termList").appendChild(termListEntry)
+            termListEntry.appendChild(termListTerm)
+            termListEntry.appendChild(termListResponse)
+            termListEntry.appendChild(termListRemoveButton)
+            termListTerm.appendChild(termListTermP)
+            termListResponse.appendChild(termListResponseP)
+            termListRemoveButton.appendChild(termListRemove)
+            console.log("Loaded term has been added via HTML!")
+            console.log("Finished adding loaded term with ID "+loadID+"!")
+            console.log("")
+            loadID = loadID + 1;
+            }
+            console.log("Finished loading all terms from cache!")
+        }
+        window.onload = function() {
+        loadFromCache();
+        };
+        function resetScore() {
+            correctTerms = 0;
+            askedTerms = 0;
+            document.getElementById("scoreP").innerHTML = "Score: Empty"
+            localStorage['correctTerms'] = 0
+            localStorage['askedTerms'] = 0
+        }
+    </script>
+</body>

@@ -1,0 +1,338 @@
+html {
+    margin:0;
+    padding:0;
+}
+
+.title, .subtitle {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+#title {
+    margin-bottom:50px;
+}
+
+#footerText {
+    text-align:center;
+    color:gray;
+    filter:opacity(50%);
+}
+
+footer {
+    margin:auto;
+    width:fit-content;
+}
+
+body {
+    min-height:100vh;
+    font-family: Arial;
+    background:linear-gradient(rgb(171, 223, 117) 70%, rgb(153, 247, 171))
+}
+
+@font-face{
+    font-family: Roboto;
+    src: url('assets/Roboto-Regular.ttf')
+}
+
+#new {
+    text-align:center;
+}
+
+.title, .subtitle, #button_new, #term, #input1, #termListTitle, #termList, #addNew, #addButton, #termListHidden {
+    text-align:center;
+}
+
+#term {
+    font-size:larger;
+    text-decoration: underline;
+}
+
+#term1 {
+    width:220px;
+    text-align:center;
+    margin:auto;
+}
+
+#input1 {
+    float:left;
+    margin-top:12px;
+}
+
+#verifybutton {
+    background:transparent;
+    border:none;
+    outline:none;
+    display:block;
+    height:40px;
+    width:40px;
+    cursor:pointer;
+    overflow:hidden;
+}
+
+.removeButton {
+    background:transparent;
+    border:none;
+    outline:none;
+    height:46px;
+    width:40px;
+    cursor:pointer;
+    overflow:hidden;
+}
+
+#termList {
+    width:100%;
+    text-align:center;
+    margin:auto;
+    height:fit-content;
+    margin-top:10px;
+}
+
+#addNew {
+    margin:0;
+    width:345px;
+    height:100px;
+}
+
+#addNewTitle {
+    margin: 0;
+    vertical-align: bottom;
+    position:relative;
+}
+
+#addTerm {
+    float:left;
+}
+
+#addTerm, #addResponse {
+    overflow:hidden;
+    text-align:center;
+}
+
+#addButton {
+    margin:auto;
+    text-align:center;
+    margin-top:10px;
+    margin-bottom:20px;
+}
+
+.termListTerm, .termListResponse {
+    height:40px;
+    width:40%;
+    border:3px black groove;
+    font-size:15px;
+    background: linear-gradient(rgb(163, 206, 241) 80%,rgb(46, 64, 82));
+    overflow:hidden;
+    text-align:center;
+    vertical-align:middle;
+}
+
+.termListResponse {
+    float:left;
+    display:table;
+}
+
+.termListTerm {
+    float:left !important;
+    display:table;
+}
+
+.termListEntry {
+    /* display:inline-block; */
+    text-align:center;
+    margin:0 auto;
+    width:360px;
+    padding:3px;
+    margin-top:5px;
+}
+
+.termListTermP, .termListResponseP {
+    text-align:center; 
+    vertical-align: middle;
+    display: table-cell;
+}
+
+#termListTitle {
+    width:max-content;
+    margin:auto;
+    margin-bottom:15px;
+}
+
+#termListTitleTitle {
+    float:left;
+}
+
+#termListTitleButton, #TermListTitleTitle {
+    overflow:hidden;
+    text-align:center;
+    margin:5px;
+}
+
+#termListTitleButton {
+    padding:0%;
+    margin-bottom:20px;
+}
+
+#termListHidden {
+    text-align:center;
+    width:100%;
+    position:relative;
+    margin-bottom:10px;
+    display:inline-block;
+    margin-top:0px;
+    height:0;
+}
+
+#titleImg {
+    position:absolute;
+    text-align:center;
+}
+
+#moreInfo, #backA {
+    text-align:center;
+    color:gray;
+}
+
+#moreInfo {
+    margin-left:110px;
+    margin-top:5px;
+}
+
+#moreInfo:hover, #backA {
+    text-decoration:underline;
+}
+
+#infoMain {
+    text-align:center;
+}
+
+#backA {
+    text-align:center;
+    margin-left:49%
+}
+
+button:not(.removeButton, #verifybutton) {
+    background-color: rgb(189, 137, 126);
+    border:none;
+    box-shadow: 3px 3px;
+}
+
+button:not(.removeButton, #verifybutton):hover {
+    background-color: rgb(204, 146, 136);
+}
+
+button:not(.removeButton, #verifybutton):active {
+    background-color: rgb(204, 146, 136);
+    box-shadow:none;
+    transform:translateX(3px) translateY(3px);
+}
+
+#settingsList {
+    text-align:center;
+}
+
+.settingI {
+    float:left;
+    overflow:hidden;
+    vertical-align: middle;
+    margin: 0 auto;
+    height:30px;
+    margin-right:5px;
+}
+
+.settingP {
+    float:right;
+    overflow:hidden;
+    margin: 0 auto;
+    height:30px;
+    transform:translateY(6px);
+}
+
+.settingsEntry {
+    overflow:hidden;
+    width:fit-content;
+    text-align:center;
+    height:30px;
+    margin:0 auto;
+}
+
+#settings_button {
+    display: block;
+    width: 53px;
+    height: 53px;
+    position: fixed;
+    top: 90%;
+    left: 95%;
+    padding: 0;
+    cursor:pointer;
+}
+
+#creditFixed {
+    position: fixed;
+    top: 94%;
+    left: 1%;
+    padding: 0;
+}
+
+#score {
+    position: fixed;
+    top: 1%;
+    left: 1%;
+    padding: 0;
+    font-size:larger;
+    width:fit-content;
+    padding:5px;
+    height:25px;
+    margin:0 auto;
+    outline:2px black inset;
+    background: linear-gradient(rgb(231, 165, 33) 80%,rgb(178, 127, 26));
+    border-radius:5px;
+}
+
+#scoreClear {
+    position: fixed;
+    top: 7%;
+    left: 1%;
+    padding: 0;
+    width:fit-content;
+    padding:5px;
+    height:15px;
+    margin:0 auto;
+    outline:2px black inset;
+    background: rgb(145, 145, 145);
+    border-radius:4px;
+    transition: background 0.5s ease;
+    cursor:pointer;
+}
+
+#scoreClear:hover {
+    background: rgb(171, 171, 171);
+    border-radius:4px;
+}
+
+#scoreP {
+    transform:translateY(-17px);
+}
+
+#hideButton {
+    height:25px;
+    width:30px;
+    transform:translateY(15px);
+    margin-bottom:20px;
+}
+
+#termListButtonP {
+    margin:0 auto;
+}
+
+#settingsTitle {
+    text-align: center;
+}
+
+#CasperThePancake {
+    text-decoration: underline;
+    cursor:pointer;
+    color:inherit;
+}

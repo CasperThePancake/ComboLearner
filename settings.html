@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<head lang="en-US">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.png?v=2">
+    <title>ComboLearner - Settings</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+<body>
+    <div id="title">
+        <h1 class="title">ComboLearner</h1>
+        <h5 class="subtitle">Learn anything quickly</h5>
+    </div>
+    <h2 id="settingsTitle">Settings</h3>
+    <div id="settingsList">
+        <div class="settingsEntry"><input onClick="saveSettings()" class="settingI" id="setting_NextTerm" type="checkbox"><p class="settingP">Show new term after getting one correct</p></div>
+        <div class="settingsEntry"><input onClick="saveSettings()" class="settingI" id="setting_CaseSensitive" type="checkbox"><p class="settingP">Responses are case-sensitive</p></div>
+    </div>
+    <a href="learner.html" id="backA">Back</a>
+    <script>
+        function saveSettings() {
+            localStorage['st_NextTerm'] = document.getElementById("setting_NextTerm").checked;
+            localStorage['st_CaseSensitive'] = document.getElementById("setting_CaseSensitive").checked;
+            console.log("Saved settings!")
+        }
+        window.onload = function() {
+        loadSettings();
+        };
+        function loadSettings() {
+            //Weird bug, so workaround
+            //ST_NEXTTERM
+            if (localStorage['st_NextTerm'] == "true") {
+                document.getElementById("setting_NextTerm").checked = true;
+            }
+            if (localStorage['st_NextTerm'] == "false") {
+                document.getElementById("setting_NextTerm").checked = false;
+            }
+            //ST_CASESENSITIVE
+            if (localStorage['st_CaseSensitive'] == "true") {
+                document.getElementById("setting_CaseSensitive").checked = true;
+            }
+            if (localStorage['st_CaseSensitive'] == "false") {
+                document.getElementById("setting_CaseSensitive").checked = false;
+            }
+        }
+    </script>
+</body>
