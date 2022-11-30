@@ -293,7 +293,8 @@
             var askedTerms = localStorage['askedTerms']
             if (askedTerms != 0) {
             var scorePercent = Math.round(correctTerms / askedTerms * 100)
-            document.getElementById("scoreP").innerHTML = "Score: "+correctTerms+"/"+askedTerms+" ("+scorePercent+"%)"                
+            document.getElementById("scoreP").innerHTML = "Score: "+correctTerms+"/"+askedTerms+" ("+scorePercent+"%)"  
+            console.log("Loaded score from cache!")              
             }
             // Empty array and list
             // Empty array
@@ -349,13 +350,12 @@
         }
         window.onload = function() {
         //ONLY RUN THE CACHE LOAD FUNCTION IF THIS IS NOT THE FIRST VISIT, OTHERWISE MEMORY LEAKS
-        if (localStorage['clLength']) {
-            console.log("YES")
+        if (localStorage['clLength'] > 0) {
+            loadFromCache();
         }
         else {
-            console.log("no")
+            console.log("This is the user's first visit, not loading cache to prevent memory leak.")
         }
-        // loadFromCache();
         };
         function resetScore() {
             correctTerms = 0;
