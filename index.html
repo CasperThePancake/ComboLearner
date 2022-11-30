@@ -291,6 +291,13 @@
             // Load score from cache
             var correctTerms = localStorage['correctTerms']
             var askedTerms = localStorage['askedTerms']
+            if (askedTerms > 0) {
+            }
+            else {
+                correctTerms = 0
+                askedTerms = 0
+                console.log("Score cache is empty, resetting...")
+            }
             if (askedTerms != 0) {
             var scorePercent = Math.round(correctTerms / askedTerms * 100)
             document.getElementById("scoreP").innerHTML = "Score: "+correctTerms+"/"+askedTerms+" ("+scorePercent+"%)"  
